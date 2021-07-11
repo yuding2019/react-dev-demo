@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "react",
+    "allowJs": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": ["./src/*"],
+  "exclude": ["node_modules"]
+}
