@@ -3,8 +3,11 @@ const { merge } = require('webpack-merge');
 const { resolve, resolveIp } = require('./utils');
 const base = require('./webpack.config.base');
 
+const _env = 'development';
+
 const devConfig = {
-  mode: 'development',
+  mode: _env,
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: resolve('public'),
     compress: true,
@@ -20,4 +23,4 @@ const devConfig = {
   }
 }
 
-module.exports = merge(base, devConfig);
+module.exports = merge(base(_env), devConfig);

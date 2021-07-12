@@ -1,17 +1,21 @@
-const forceCheckType = require('fork-ts-checker-webpack-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const ForceCheckType = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtract = require('mini-css-extract-plugin');
 
 const { resolve } = require('./utils');
 
-const base = {
-  entry: resolve('./src/index.tsx'),
+const base = (env) => ({
+  entry: resolve('src/index.tsx'),
   output: {
-    filename: '[name].[contenthash].js',
+    filename: 'static/js/[name].[contenthash:8].js',
+    chunkFilename: 'static/js/[name].[contenthash:8].js',
     path: resolve('build'),
+    clean: true,
   },
+  devtool: false,
   resolve: {
     alias: {
-      '@/*': resolve('src/*'),
+      '@': resolve('src'),
     },
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -22,6 +26,9 @@ const base = {
         include: [resolve('src')],
         use: [
           {
+            loader: 'thread-loader',
+          },
+          {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
@@ -29,7 +36,7 @@ const base = {
                 '@babel/preset-react',
                 '@babel/preset-typescript',
               ],
-            }
+            },
           }
         ],
       },
@@ -37,19 +44,42 @@ const base = {
         test: /\.(css|less)$/,
         include: [resolve('src')],
         use: [
-          'style-loader',
+          env === 'development' ? 'style-loader' : ({
+            loader: MiniCssExtract.loader,
+            options: {
+              publicPath: resolve('build'),
+            }
+          }),
           'css-loader',
+          'postcss-loader',
           'less-loader',
         ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        include: [resolve('src')],
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            }
+          }
+        ]
       }
     ],
   },
   plugins: [
-    new forceCheckType(),
-    new htmlWebpackPlugin({
+    new ForceCheckType(),
+    new HtmlWebpackPlugin({
       template: resolve('public/index.html'),
+      inject: 'body',
     }),
-  ]
-};
+    env === 'production' && new MiniCssExtract({
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[id].[contenthash:8].css",
+    }),
+  ].filter(Boolean)
+});
 
 module.exports = base;
