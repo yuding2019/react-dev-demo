@@ -2,13 +2,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "strict": true,
     "isolatedModules": true,

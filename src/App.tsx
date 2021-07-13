@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 import './App.less';
 import AvatarUrl from '@/assets/avatar.png';
 
-const App: React.FC = () => {
+const App: FC = () => {
   return (
     <div className="hello">
       <p>hello, React!</p>

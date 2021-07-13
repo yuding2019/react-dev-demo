@@ -32,10 +32,6 @@ const base = (env) => ({
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: [
-                '@babel/preset-react',
-                '@babel/preset-typescript',
-              ],
             },
           }
         ],
