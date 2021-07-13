@@ -46,9 +46,19 @@ const base = (env) => ({
               publicPath: resolve('build'),
             }
           }),
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            }
+          },
           'postcss-loader',
-          'less-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: false,
+            }
+          }
         ],
       },
       {
