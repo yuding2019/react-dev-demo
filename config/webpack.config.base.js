@@ -4,11 +4,13 @@ const MiniCssExtract = require('mini-css-extract-plugin');
 
 const { resolve } = require('./utils');
 
+const outPathPrefix = 'static';
+
 const base = (env) => ({
   entry: resolve('src/index.tsx'),
   output: {
-    filename: 'static/js/[name].[contenthash:8].js',
-    chunkFilename: 'static/js/[name].[contenthash:8].js',
+    filename: outPathPrefix + '/js/[name].[contenthash:8].js',
+    chunkFilename: outPathPrefix + '/js/[id].[contenthash:8].js',
     path: resolve('build'),
     clean: true,
   },
@@ -25,9 +27,9 @@ const base = (env) => ({
         test: /\.(ts|js)x?$/,
         include: [resolve('src')],
         use: [
-          {
-            loader: 'thread-loader',
-          },
+          // {
+          //   loader: 'thread-loader',
+          // },
           {
             loader: 'babel-loader',
             options: {
@@ -69,6 +71,7 @@ const base = (env) => ({
             loader: 'url-loader',
             options: {
               limit: 8192,
+              name: outPathPrefix + '/assets/[name].[ext]',
             }
           }
         ]
@@ -82,8 +85,8 @@ const base = (env) => ({
       inject: 'body',
     }),
     env === 'production' && new MiniCssExtract({
-      filename: "static/css/[name].[contenthash:8].css",
-      chunkFilename: "static/css/[id].[contenthash:8].css",
+      filename: outPathPrefix + "/css/[name].[contenthash:8].css",
+      chunkFilename: outPathPrefix + "/css/[id].[contenthash:8].css",
     }),
   ].filter(Boolean)
 });
