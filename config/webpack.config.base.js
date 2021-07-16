@@ -42,12 +42,12 @@ const base = (env) => ({
         test: /\.(css|less)$/,
         include: [resolve('src')],
         use: [
-          env === 'development' ? 'style-loader' : ({
+          env === 'production' ? ({
             loader: MiniCssExtract.loader,
             options: {
               publicPath: resolve('build'),
             }
-          }),
+          }) : 'style-loader',
           {
             loader: 'css-loader',
             options: {
