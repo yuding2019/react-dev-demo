@@ -2,6 +2,11 @@ module.exports = {
   "env": {
     "browser": true,
   },
+  "settings": {
+    "react": {
+      "version": "detect",
+    },
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",

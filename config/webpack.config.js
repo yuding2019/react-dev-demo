@@ -1,12 +1,16 @@
+const MiniCssExtract = require('mini-css-extract-plugin');
 const ForceCheckType = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtract = require('mini-css-extract-plugin');
+const EslintWebpackPlugin = require('eslint-webpack-plugin');
 
 const { resolve } = require('./utils');
 
 const outPathPrefix = 'static';
+const _env = process.env.NODE_ENV || 'development';
 
-const base = (env) => ({
+const base = (env = _env) => ({
+  mode: env,
+  devtool: env === 'development' ? 'inline-source-map' : false,
   entry: resolve('src/index.tsx'),
   output: {
     filename: outPathPrefix + '/js/[name].[contenthash:8].js',
@@ -35,7 +39,7 @@ const base = (env) => ({
             options: {
               cacheDirectory: true,
             },
-          }
+          },
         ],
       },
       {
@@ -59,8 +63,8 @@ const base = (env) => ({
             loader: 'less-loader',
             options: {
               sourceMap: false,
-            }
-          }
+            },
+          },
         ],
       },
       {
@@ -72,10 +76,10 @@ const base = (env) => ({
             options: {
               limit: 8192,
               name: outPathPrefix + '/assets/[name].[ext]',
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -83,6 +87,14 @@ const base = (env) => ({
     new HtmlWebpackPlugin({
       template: resolve('public/index.html'),
       inject: 'body',
+    }),
+    new EslintWebpackPlugin({
+      extensions: ['ts', 'tsx', 'js', 'jsx'],
+      cache: true,
+      baseConfig: {
+        extends: [resolve('.eslintrc.js')],
+      },
+      failOnError: true,
     }),
     env === 'production' && new MiniCssExtract({
       filename: outPathPrefix + "/css/[name].[contenthash:8].css",
