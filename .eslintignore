@@ -1,4 +1,6 @@
-build
-config
-node_modules
-public
+build/
+config/
+node_modules/
+public/
+scripts/
+.eslintrc.js
