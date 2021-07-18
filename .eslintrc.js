@@ -32,6 +32,9 @@ module.exports = {
     "no-undefined": ["warn"],
     "jsx-quotes": ["error", "prefer-double"],
     "semi": ["error", "always", {}],
-    "indent": ["warn", 2]
+    "indent": ["warn", 2],
+    "react/prop-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "react/display-name": "off",
   }
 }
